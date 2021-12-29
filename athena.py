@@ -10,7 +10,8 @@ def get_input():
 
 def regex_bool(string,regex_array):
     for regex_exp in regex_array:
-        if len(re.findall(regex_exp,string)) > 0:
+        pattern = re.compile(regex_exp)
+        if pattern.match(string):
             return True
     return False
 
