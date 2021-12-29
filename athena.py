@@ -2,14 +2,17 @@ import wikipedia
 import re
 import random
 from wiktionaryparser import WiktionaryParser
+from string import punctuation
 parser = WiktionaryParser()
 
 quit_strings = ["quit$","^bye","$see y"]
-pedia_strings = ["^(what|who|where) (is|are) "]
+pedia_strings = ["^(what|who|where)(|s|'s|se| is| are) "]
 factoid_strings = ["tell me.* something"]
 thank_strings = ["^thanks*( you)*"]
 greet_strings = ["^hi","^hello","^hey"]
 define_strings = ["^define "]
+#sonemic
+#weather
 
 def get_input():
     #I'm sure this will be more complicated later.
@@ -24,10 +27,9 @@ def regex_bool(string,regex_array):
     return False
 
 def get_wikipedia(prompt):
-    #Have some code to parse any problems.
-    #Eg. Disambiguation error.
     try:
-        raw_text = wikipedia.summary(prompt)
+        filtered_prompt = prompt.strip(punctuation)
+        raw_text = wikipedia.summary(filtered_prompt)
         clean_text = raw_text.encode("ascii","ignore").decode("ascii") #bruh
         return clean_text.replace("//","")
     except:
