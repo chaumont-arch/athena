@@ -1,7 +1,11 @@
 import wikipedia
 import re
+import random
 
-quit_strings = ["quit","bye.?"]
+quit_strings = ["quit$","^bye"]
+pedia_strings = ["^(what|who|where) (is|are) "]
+factoid_strings = ["tell me.* something"]
+thank_strings = ["^thanks*( you)*"]
 
 def get_input():
     #I'm sure this will be more complicated later.
@@ -15,15 +19,35 @@ def regex_bool(string,regex_array):
             return True
     return False
 
+def get_wikipedia(prompt):
+    raw_text = wikipedia.summary(prompt)
+    clean_text = raw_text.encode("ascii","ignore").decode("ascii") #bruh
+    return clean_text.replace("//","")
+
 def parse_input(user_input):
     lower_input = user_input.lower()
-   # if lower_input == "quit":
-    #    return False
+
+    #There's got to be a better method than this.
     if regex_bool(lower_input,quit_strings):
         print("bye!")
         return False
+    elif regex_bool(lower_input,pedia_strings):
+        pattern = re.compile(pedia_strings[0])
+        search_string = pattern.split(lower_input)[-1]
+        print("i've read about {}:".format(search_string))
+        summary = get_wikipedia(search_string)
+        print(summary)
+    elif regex_bool(lower_input,factoid_strings):
+        prompt = wikipedia.random()
+        print("i'll tell you about {}".format(prompt))
+        summary = get_wikipedia(prompt)
+        print(summary)
+    elif regex_bool(lower_input,thank_strings):
+        answers = ["no problem","don't worry about it"]
+        random.shuffle(answers)
+        print(answers[0])
     else:
-        print("unrecognized input")
+        print("unrecognized input. sorry")
     return True
 
 def main():
