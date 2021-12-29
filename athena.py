@@ -4,7 +4,7 @@ import random
 from wiktionaryparser import WiktionaryParser
 parser = WiktionaryParser()
 
-quit_strings = ["quit$","^bye"]
+quit_strings = ["quit$","^bye","$see y"]
 pedia_strings = ["^(what|who|where) (is|are) "]
 factoid_strings = ["tell me.* something"]
 thank_strings = ["^thanks*( you)*"]
@@ -25,9 +25,13 @@ def regex_bool(string,regex_array):
 
 def get_wikipedia(prompt):
     #Have some code to parse any problems.
-    raw_text = wikipedia.summary(prompt)
-    clean_text = raw_text.encode("ascii","ignore").decode("ascii") #bruh
-    return clean_text.replace("//","")
+    #Eg. Disambiguation error.
+    try:
+        raw_text = wikipedia.summary(prompt)
+        clean_text = raw_text.encode("ascii","ignore").decode("ascii") #bruh
+        return clean_text.replace("//","")
+    except:
+        return "jk i havent"
 
 def get_wiktionary(prompt):
     #Add support for different languages in the future.
