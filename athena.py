@@ -6,6 +6,7 @@ quit_strings = ["quit$","^bye"]
 pedia_strings = ["^(what|who|where) (is|are) "]
 factoid_strings = ["tell me.* something"]
 thank_strings = ["^thanks*( you)*"]
+greet_strings = ["^hi","^hello","^hey"]
 
 def get_input():
     #I'm sure this will be more complicated later.
@@ -46,6 +47,8 @@ def parse_input(user_input):
         answers = ["no problem","don't worry about it"]
         random.shuffle(answers)
         print(answers[0])
+    elif regex_bool(lower_input,greet_strings):
+        print("yo")
     else:
         print("unrecognized input. sorry")
     return True
